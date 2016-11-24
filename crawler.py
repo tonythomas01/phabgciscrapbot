@@ -12,7 +12,8 @@ import csv
 import requests
 s = requests.Session()
 
-api_token = "api-your-here"
+# You will have to paste in your conduit API key here
+api_token = "api-your_api_key_here"
 conduit = "https://phabricator.wikimedia.org/api/maniphest.query" 
 
 # since most of phab is rendered after page load, we need this cute thing
@@ -32,7 +33,11 @@ url = 'https://phabricator.wikimedia.org/project/view/2304/'
 r = Render(url)  
 result = r.frame.toHtml()
 tree = html.fromstring(str(result.toAscii()))
-pbab_links_in_proj = tree.xpath('//ul[@data-meta="0_103"]/li//div[@class="phui-object-item-name"]/span/a/@href')
+
+# This is kinda bad way to scrap, but we got no otherway! 
+# Inspect the project column you need, and update the following regex accordingly
+
+pbab_links_in_proj = tree.xpath('//ul[@data-meta="0_114"]/li//div[@class="phui-object-item-name"]/span/a/@href')
 completeIds = []
 
 # We need to remove that extra stuff from start of IDs 
